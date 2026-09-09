@@ -1,0 +1,27 @@
+ultralytics
+scipy
+tqdm
+opt_einsum
+imageio
+scikit-image
+open3d
+pyyaml
+h5py
+omegaconf
+imgaug
+ninja
+timm
+albumentations
+joblib
+scikit-learn
+ruamel.yaml
+trimesh
+transformations
+einops
+gdown
+nodejs
+huggingface-hub
+onnx
+onnxsim
+onnxruntime-gpu  # 可选，如果需要 ONNX 推理
+#imageio-ffmpeg  # Windows 上用于转换视频

@@ -1,0 +1,39 @@
+# ===== Python 缓存 =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.ipynb_checkpoints/
+
+# ===== 模型权重（体积巨大，不纳入版本控制）=====
+model_data/ckpt/
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.bin
+*.pkl
+
+# ===== ONNX / TensorRT 引擎 =====
+model_data/onnx/
+*.onnx
+*.engine
+*.trt
+*.plan
+
+# ===== YOLO 权重 =====
+model_data/yolo/
+
+# ===== 视频文件 =====
+testfile/videos/
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.flv
+
+# ===== 日志与临时文件 =====
+*.log
+*.tmp
+.DS_Store

@@ -1,0 +1,20 @@
+minDisparity: 1
+numDisparities: 84
+blockSize: 4
+P1: 500
+P2: 1500
+disp12MaxDiff: -1
+uniquenessRatio: 10
+speckleWindowSize: 3
+speckleRange: 3
+preFilterCap: 1
+mode: 2
+# blur_time: 0
+# blur_ker: 2
+# complete_time: 0
+# complete_ker: 3
+# use_wls: true
+# wls_Lambda: 1235.0
+# wls_SigmaColor: 1.0
+# wls_LRCthresh: 15
+# wls_DepthDiscontinuityRadius: 3
