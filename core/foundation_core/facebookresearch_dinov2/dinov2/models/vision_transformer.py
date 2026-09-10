@@ -20,7 +20,7 @@ from torch.nn.init import trunc_normal_
 from core.foundation_core.facebookresearch_dinov2.dinov2.layers import Mlp, PatchEmbed, SwiGLUFFNFused, MemEffAttention, NestedTensorBlock as Block
 from utils.logger import get_logger
 
-logger = get_logger("dinov2.models.vision_transformer")
+logger = get_logger(" foundation_core.dinov2.vision_transformer")
 
 
 def named_apply(fn: Callable, module: nn.Module, name="", depth_first=True, include_root=False) -> nn.Module:
