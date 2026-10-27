@@ -1,6 +1,6 @@
 # 项目简介
 
-本项目是一个双目立体匹配算法集合库，可以用来做对比试验，也可以用来实地部署测试，本项目可以提供的内容包括立体匹配、目标检测、双目相机的标定。
+本项目是一个双目立体匹配算法集合库，提供的内容包括立体匹配、目标检测、双目相机的标定。
 
 其中立体匹配包含如下算法：
 
@@ -17,28 +17,16 @@
 |DEFOM Stereo|2025年，KITTI/Middlebury/ETH3D零样本泛化SOTA|[https://github.com/Insta360-Research-Team/DEFOM-Stereo](https://github.com/Insta360-Research-Team/DEFOM-Stereo)||
 
 
-本项目提供了整合以上所有内容的整合包，统一格式调用推理（由于立体匹配的泛化性强，故不包含训练）
-
 
 # 使用流程
 ## 一、配置环境
 
 ### 1.1 Anaconda 和 Pytorch 安装
-对于干净的电脑环境需要安装 Anaconda 和 VScode
-
-[PyTorch安装教程（GPU版，含Anaconda安装）https://blog.csdn.net/qq_45670495/article/details/140880852](https://blog.csdn.net/qq_45670495/article/details/140880852)
-
-pytorch 下载太慢可以参考 
-
-[https://mirrors.aliyun.com/pytorch-wheels/](https://mirrors.aliyun.com/pytorch-wheels/)
-
-[https://download.pytorch.org/whl/](https://download.pytorch.org/whl/)
-
-下载对应的 wheel 文件然后 `pip install`    即可
+安装 Anaconda 和 VScode
 
 选择 2.5.0 版本的 torch
 
-python版本要求 == 3.9 
+python版本要求 >= 3.9 
 
 （以上版本可以变更，一般不会影响程序运行。唯一可能出现的问题是在linux下较高版本的torch导出的onnx可能会有问题，其余完全不影响）
 
@@ -51,7 +39,6 @@ pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
 以上库是运行的必要库。如果后续有调优和加速需求可以参考 **1.3** ～ **1.5** 没有可以自动跳过
-
 
 
 ### 1.3 sgbm 的 wls 滤波
@@ -75,19 +62,6 @@ sudo apt update
 sudo apt install build-essential
 ```
 - ---
-#### windows
-
-安装 visual studio:
-
-参考
- [https://blog.csdn.net/HxiongGe/article/details/140082466](https://blog.csdn.net/HxiongGe/article/details/140082466)
-- --
-安装完 c++ 以后
-在**当前 anaconda 环境下**的**当前目录**下运行：
-```bash
-cd core/raft_stereo_core/sampler
-python setup.py install
-```
 
 
 ### 1.5 Foundation-stereo 加速
@@ -101,15 +75,6 @@ sudo apt install build-essential
 pip install flash-attn
 ```
 
-- windows
-
-参考
- [https://blog.csdn.net/HxiongGe/article/details/140082466](https://blog.csdn.net/HxiongGe/article/details/140082466)
-
-安装 visual studio 然后配置环境变量即可
-
-
-如果遇到安装好以后不能使用的情况可以适当降低版本。
 
 
 **注意 foundation stereo 暂时不支持 cpu 版本的 torch**
@@ -167,30 +132,11 @@ else:
 如果输出 *TensorRT执行提供程序可用*   则证明安装成功
 
 
-以下表格是基于640*480图像的帧率测试，其中 sgbm 为 opencv 库函数，测试设备为Legion-Y9000P-IRX8 + NVIDIA 4060 ubuntu20.04，切换到windows帧率也可能会波动
-
-
-
-| 模型名称    | 帧率(pytorch/cv2) | 帧率(onnx+tenorrt)   |显存(pytorch) |显存(onnx+tenorrt) |
-|------------|---------|-------|-------|-------|
-|sgbm |  35  |         |         |         |
-|psm |  2.9  |   10.8   |  2.74G  |   2.05G   |
-|unimatch |  4.5  |         |    0.91G     |         |
-|raftstereo |  12.1   | 50 |    0.33G     |  0.26G   |
-|crestereo | 2.9 |    15     |  0.5G  |  0.36G   |
-|sea-raft | 8.9 |  25  |  3.3G   |  0.37G  |
-|foundationstereo | 1.2 |  4.1  |   4.6G   |   3.58G      |
-|monster |  0.15  |   4.5   |   3.42G      |  1.53G  |
-|defomstereo |  4.0  |   11  |   1.18G      |  0.98G  |
-
-精度上
-foundationstereo > monster ~ defomstereo > crestereo > raftstereo > psm > sgbm
-
 ## 二、标定（如果需要三维重建，必须，如果仅需要视差图可以跳过）
 ### 2.1 获得标定数据
 如果你自己有标定参数，跳到 **2.3**
 
-本例需要一个双目摄像头并能获取图像，打开 `./utils/get_calib_data.py` 
+需要一个双目摄像头并能获取图像，打开 `./utils/get_calib_data.py` 
 选择合适的摄像头参数，括号填入数字选择摄像头
 ```python
 camera = cv2.VideoCapture(0)
@@ -358,16 +304,6 @@ sudo swapoff /swapfile
 sudo rm /swapfile
 ```
 
-windows:
-
-
-输入栏输入 `环境变量` ，双击打开 `编辑系统环境变量`，选择 `高级` ，打开 `性能` 中的 `设置` ，选择`高级` ，点击 `虚拟内存` 的 `更改`，选择磁盘和自定义大小，点击 `设置`，然后全部确定即可。
-
-
-参考
-[https://blog.csdn.net/weixin_74261199/article/details/141068435](https://blog.csdn.net/weixin_74261199/article/details/141068435)
-
-
 
 
 ### 3.2 深度目标测距+显示点云
@@ -389,10 +325,9 @@ if YOLO_DETETCT:
 修改 `'./model_data/yolov8-seg-face.pt'` 为你的模型的路径
 
 
-
 获得检测信息
 
-在代码中间
+在代码中
 ```python
 if YOLO_DETETCT:
     results = yolo.predict(imgL, conf=0.4)[0]
@@ -437,75 +372,3 @@ mode 表示显示内容，此处为 'whxyz' 表示显示宽高+世界坐标xyz
 
 ### 3.4 测试双目视频
 运行 `test_video.py`，可以修改自己的视频路径，本例提供一个测试视频和与其对应的相机内参检测，保存结果为左视角图像和深度图的拼接结果。 
-
-
-### 3.5 滤波模型
-
-一般来说在目标检测后得到标注框 $x_1, y_1, x_2, y_2$，还有其掩码矩阵。获得掩码对应的所有深度值后，
-对其深度值排序并切片找到包含一定范围内最多深度值的范围。这个范围可以是物体的真实厚度，例如对于脸部深度估计可以设置为 $7.5\mathrm{cm} $ ，然后选择其 $(0.3,0.7)$ 区间范围内取平均得到平均深度 $z$，这样的误差可以非常小
-
-为了从深度坐标获得误差较小的三维坐标，可以先计算其中心坐标
-$
-\left\{\begin{matrix}
-u=\frac{x_1+x_2}{2}  \\
-v=\frac{y_1+y_2}{2}
-\end{matrix}\right.
-$
-。一旦获得了相机中心坐标估计的 $(x,y,z)$，就结束了。
-
-考虑相机重投影矩阵模型
-
-$$
-Q = \begin{bmatrix}
-1 & 0 & 0 & q_{03} \\
-0 & 1 & 0 & q_{13} \\
-0 & 0 & 0 & q_{23} \\
-0 & 0 & q_{32} & 0
-\end{bmatrix} 
-
-$$
-
-以及
-
-$$
-\begin{bmatrix} X \\ Y \\ Z \\ W \end{bmatrix} = Q \begin{bmatrix} u \\ v \\ d \\ 1 \end{bmatrix}
-
-= \begin{bmatrix}
-1 & 0 & 0 & q_{03} \\
-0 & 1 & 0 & q_{13} \\
-0 & 0 & 0 & q_{23} \\
-0 & 0 & q_{32} & 0
-\end{bmatrix} 
-\begin{bmatrix} u \\ v \\ d \\ 1 \end{bmatrix}
-$$
-
-$$
-\begin{bmatrix} x & y & z  \end{bmatrix} = \frac{1}{W}\begin{bmatrix} X & Y & Z  \end{bmatrix}
-$$
-
-因此可以得到 $W$ 和深度值 $z$ 的关系
-
-$$ 
-W=\frac{q_{23}}{z}
-$$
-
-从而解出
-
-$$
-x=\frac{u+q_{03}}{q_{23}} z
-$$
-$$
-y=\frac{v+q_{13}}{q_{23}}z
-$$
-
-一般来说 $\frac{u+q_{03}}{q_{23}},\frac{v+q_{13}}{q_{23}}<1$，因此对于 $x,y$ 甚至可以获得更高的精度。
-
-
-获得物体宽高
-
-$$
-w=\left | \frac{\Delta u}{q_{23}} z\right |
-$$
-$$
-w=\left |\frac{\Delta v}{q_{23}}z\right |
-$$
