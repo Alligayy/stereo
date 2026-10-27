@@ -124,7 +124,7 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U xformers --index-url 
 
 
 
-### 1.6 onnx+tensorrt 加速推理（目前仅在linux实验成功）
+### 1.6 onnx+tensorrt 加速推理
 
 安装 onnxruntime-gpu
 ```bash

@@ -13,7 +13,7 @@ from utils.logger import get_logger
 
 logger = get_logger("test_video")
 
-def video_depth(input_video, model_name, yaml_path, detect=0,onnx=False):
+def video_depth(input_video, model_name, yaml_path, detect=0, onnx=True):
     current_os = platform.system()
     logger.info(f"当前操作系统：{current_os}")
     # camera_config = CameraConfig(yaml_path)
@@ -65,7 +65,7 @@ def video_depth(input_video, model_name, yaml_path, detect=0,onnx=False):
             frame1, frame2 = frame[:, :splity], frame[:, splity:]
 
             # 畸变矫正
-            res = model.update(frame1, frame2, rate=1, remap=True)
+            res = model.update(frame1, frame2, rate=1, remap=True, show_text=False)
             imgL, imgR = res['image1'], res['image2']
             # model.get_disparity(imgL, imgR)
             # model.get_depthmap()
@@ -125,11 +125,15 @@ if __name__ == '__main__':
     # yaml_path = 'model_data/configs/camera_config_dechuang_640x480.yaml'
     # input_video = 'testfile/videos/20250602133949.mp4'
 
-    yaml_path = 'model_data/configs/camera_config_car.yaml'
-    input_video = 'testfile/videos/car.avi'
+    # yaml_path = 'model_data/configs/camera_config_car.yaml'
+    # input_video = 'testfile/videos/car.avi'   
+
+    yaml_path = 'model_data/configs/camera_config_DECXIN_640x480_skk.yaml'
+    input_video = 'testfile/videos/stereo_20261025_161129.mp4'  # stereo_20261008_171220.mp4
+    
     for model_name in model_names:
         try:
-            video_depth(input_video, model_name, yaml_path)
+            video_depth(input_video, model_name, yaml_path, detect=0, onnx=False)
         except Exception as e:
             logger.exception(f"模型 {model_name} 运行失败: {e}")
 

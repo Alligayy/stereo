@@ -9,13 +9,13 @@ from utils.logger import get_logger
 
 logger = get_logger("test_cam")
 
-YOLO_DETETCT = 1
+YOLO_DETETCT = 0
 
 logger.info("正在初始化模型: foundation ...")
 try:
     model = Model(model_name='foundation', 
-                  camera_config='model_data/configs/camera_config_dechuang_640x480.yaml',
-                  onnx=True, trt_flag=True,
+                  camera_config='model_data/configs/camera_config_DECXIN_640x480_skk.yaml',
+                  onnx=True, trt_flag=False,
                 #   corr_implementation = 'reg'
                   )
     logger.info("模型 foundation 初始化完成")
@@ -37,12 +37,12 @@ if YOLO_DETETCT:
     # yolo = YOLO('model_data/yolo/yolov8n-seg-fire.pt')
 
 if __name__ == '__main__':
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(6)
     cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640*2)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
     if not cap.isOpened():
-        logger.error("无法打开相机（索引 0），程序退出")
+        logger.error("无法打开相机（索引 6），程序退出")
         raise SystemExit(1)
     logger.info("相机已打开，开始采集")
     fps, t1 = 0, 0
@@ -83,7 +83,7 @@ if __name__ == '__main__':
             img_st = imgL // 2 + imgR // 2
             cv2.imshow('img_st', img_st)
             cv2.imshow('img', img)
-            cv2.setMouseCallback('img', click_event)
+            #cv2.setMouseCallback('img', click_event)
             cv2.imshow('imgR', imgR)
             # cv2.imshow('disp_map', imgL
             # cv2.setMouseCallback('imgL', click_event)
