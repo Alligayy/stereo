@@ -25,13 +25,29 @@ model_data/onnx/
 # ===== YOLO 权重 =====
 model_data/yolo/
 
-# ===== 视频文件 =====
+# ===== 视频和图像文件 =====
+testfile/
+testfile/images/
 testfile/videos/
+testfile/bolt1/
+testfile/fq/
+
 *.mp4
 *.avi
 *.mov
 *.mkv
 *.flv
+
+# ===== 图像 / 深度 / 点云数据 =====
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tiff
+*.npy
+*.npz
+*.ply
+*.pcd
 
 # ===== C++ 扩展编译产物 =====
 build/
